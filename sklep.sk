@@ -1,0 +1,411 @@
+script options:
+    $ db url jdbc:mysql://
+    $ db username 123
+    $ db password 123
+	
+options:
+    prefix : &4&lStrefaDBCraft &e->
+    strona : &6https://mc.strefadb.pl/
+    run_async: true
+    allow_admincmd: true
+on command "/register":
+	{@run_async} is true:
+		$ thread
+	set {_result::*} to objects in column "money" from result of query "SELECT money FROM users WHERE username = '%player%'" and close
+	"%{_result::*}%" is "<none>":
+		update "INSERT INTO users (`username`, `money`) VALUES ('%player%', '0')"
+	if "%region at player%" contains "central_city":
+		set {_loc} to location at (0, 66, 0) in world "pustka"
+		teleport player to {_loc}
+command /sklep:
+	trigger:
+		{@run_async} is true:
+			$ thread
+		set {_result::*} to objects in column "money" from result of query "SELECT money FROM users WHERE username = '%player%'" and close
+		set {_money} to "%{_result::*}%" parsed as number
+		"%{_result::*}%" is "<none>":
+			update "INSERT INTO users (`username`, `money`) VALUES ('%player%', '0')"
+			set {_money} to 0
+		open chest with 5 rows named "&l&fSklep StrefaDBCraft" to player
+		set player's current inventory's slot 4 to 240 named "&4&lStrefaDBCraft" with lore "&6Upewnij sie że masz wiecej niż || &64 Wolne miejsce w ekwipunku!"
+		set player's current inventory's slot 21 to 4353 named "&2&lUbrania" with lore "&7Najlepsze ubrania w || &7tej części smoczego świata."
+		set player's current inventory's slot 22 to 41 named "&3&lVip" with lore "&7Funkcje Vip: ||&7- mniejszy czas oczekiwania na czacie||&7- 2x więcej zeni za granie||&7- widoczna ranga||&7- komenda /kitvip - zestaw przedmiotów||&7- komenda /kolor - zmiana koloru tekstu||&7- komenda /vc - vip chat||&7- dostęp do vip roomu||&7- oraz dodatkowe sloty vip!"
+		set player's current inventory's slot 23 to 54 named "&5&lSkrzynki" with lore "&7Otworz i sprawdz || &7co takiego wylosujesz."
+		set player's current inventory's slot 30 to 4570 named "&5&lCapsule corp" with lore "&7Technologia Capsule Corp || &7przydatna we wszystkim."
+		set player's current inventory's slot 44 to 4659 named "&5&lTwój stan Monet Strefadb" with lore "&7Aktualnie posiadasz &l&4 %{_money}% MS || &7Nacisnij aby uzyskac link"
+		delete {sklep_%player%.item1}
+		delete {sklep_%player%.item2}
+		delete {sklep_%player%.item3}
+		delete {sklep_%player%.mess}
+		delete {sklep_%player%.targetmoney}
+on inventory click:
+	if inventory name of player's current inventory is "&l&fSklep StrefaDBCraft":
+		cancel event
+		if clicked slot is 21:
+			wait 2 tick
+			open chest with 5 rows named "&2&lUbrania" to player
+			set player's current inventory's slot 0 to 4205 with lore "&6Koszt:&4 120 MS"
+			set player's current inventory's slot 1 to 4202 with lore "&6Koszt:&4 50 MS"
+			set player's current inventory's slot 2 to 4199 with lore "&6Koszt:&4 60 MS"
+			set player's current inventory's slot 3 to 4229 with lore "&6Koszt:&4 62 MS"
+			set player's current inventory's slot 4 to 4208 with lore "&6Koszt:&4 158 MS"
+			set player's current inventory's slot 5 to 4240 with lore "&6Koszt:&4 100 MS"
+			set player's current inventory's slot 6 to 4243 with lore "&6Koszt:&4 40 MS"
+			set player's current inventory's slot 7 to 4246 with lore "&6Koszt:&4 33 MS"
+			set player's current inventory's slot 8 to 4258 with lore "&6Koszt:&4 50 MS"
+			set player's current inventory's slot 9 to 4264 with lore "&6Koszt:&4 40 MS"
+			set player's current inventory's slot 10 to 4267 with lore "&6Koszt:&4 200 MS"
+			set player's current inventory's slot 11 to 4255 with lore "&6Koszt:&4 200 MS"
+			set player's current inventory's slot 12 to 4285 with lore "&6Koszt:&4 50 MS"
+			set player's current inventory's slot 13 to 4252 with lore "&6Koszt:&4 220 MS"
+			set player's current inventory's slot 14 to 4237 with lore "&6Koszt:&4 30 MS"
+			set player's current inventory's slot 15 to 4270 with lore "&6Koszt:&4 400 MS"
+			set player's current inventory's slot 16 to 4150 with lore "&6Koszt:&4 70 MS"
+			set player's current inventory's slot 17 to 4279 with lore "&6Koszt:&4 40 MS"
+			
+			set player's current inventory's slot 18 to 160:15 named " "
+			set player's current inventory's slot 19 to 160:15 named " "
+			set player's current inventory's slot 20 to 160:15 named " "
+			set player's current inventory's slot 21 to 160:15 named " "
+			set player's current inventory's slot 22 to 160:15 named " "
+			set player's current inventory's slot 23 to 160:15 named " "
+			set player's current inventory's slot 24 to 160:15 named " "
+			set player's current inventory's slot 25 to 160:15 named " "
+			set player's current inventory's slot 26 to 160:15 named " "
+			
+			set player's current inventory's slot 27 to 4311 with lore "&6Koszt:&4 500 MS"
+			set player's current inventory's slot 28 to 4310 with lore "&6Koszt:&4 100 MS"
+			set player's current inventory's slot 29 to 4309 with lore "&6Koszt:&4 100 MS"
+			set player's current inventory's slot 30 to 4294 with lore "&6Koszt:&4 50 MS"
+			set player's current inventory's slot 31 to 4295 with lore "&6Koszt:&4 40 MS"
+			set player's current inventory's slot 32 to 4296 with lore "&6Koszt:&4 40 MS"
+			set player's current inventory's slot 33 to 4297 with lore "&6Koszt:&4 45 MS"
+			set player's current inventory's slot 34 to 4298 with lore "&6Koszt:&4 30 MS"
+			set player's current inventory's slot 35 to 4299 with lore "&6Koszt:&4 20 MS"
+			
+			set player's current inventory's slot 36 to 4527:0 named "&6Wróć"
+		if clicked slot is 22:
+			if player has permission "db.vip":
+				send "&4Funkcja VIP sie nie skaluje! dlatego nie kupuj go gdy masz juz vipa, poczekaj az się on skończy"
+				close player's inventory
+				stop
+			wait 2 tick
+			open chest with 1 rows named "&3&lVip" to player
+			set player's current inventory's slot 0 to 4527:0 named "&6Wróć"
+			set player's current inventory's slot 1 to 160:15 named " "
+			
+			set player's current inventory's slot 2 to 41 named "Funkcja VIP" with lore "&6Koszt:&4 14 MS || &6Funkcja Vip na 1 dzień"
+			set player's current inventory's slot 4 to 41 named "Funkcja VIP" with lore "&6Koszt:&4 70 MS || &6Funkcja Vip na 7 dni"
+			set player's current inventory's slot 6 to 41 named "Funkcja VIP" with lore "&6Koszt:&4 225 MS || &6Funkcja Vip na 30 dni"
+			
+			set player's current inventory's slot 3 to 160:15 named " "
+			set player's current inventory's slot 5 to 160:15 named " "
+			set player's current inventory's slot 7 to 160:15 named " "
+			set player's current inventory's slot 8 to 160:15 named " "
+			set player's current inventory's slot 9 to 160:15 named " "
+		if clicked slot is 30:
+			wait 2 tick
+			open chest with 3 rows named "&5&lCapsule corp" to player
+			wait 2 tick
+			set player's current inventory's slot 26 to 4527:0 named "&6Wróć"
+			
+			set player's current inventory's slot 0 to 4315 with lore "&6Koszt:&4 20 MS"
+			set player's current inventory's slot 1 to 4316 with lore "&6Koszt:&4 20 MS"
+			set player's current inventory's slot 2 to 4317 with lore "&6Koszt:&4 20 MS"
+			set player's current inventory's slot 3 to 4318 with lore "&6Koszt:&4 20 MS"
+			set player's current inventory's slot 4 to 4319 with lore "&6Koszt:&4 20 MS"
+			set player's current inventory's slot 5 to 4320 with lore "&6Koszt:&4 20 MS"
+			
+			set player's current inventory's slot 9 to 4354 with lore "&6Koszt:&4 40 MS"
+			set player's current inventory's slot 10 to 4355 with lore "&6Koszt:&4 40 MS"
+			set player's current inventory's slot 11 to 4356 with lore "&6Koszt:&4 40 MS"
+			set player's current inventory's slot 12 to 4357 with lore "&6Koszt:&4 40 MS"
+			set player's current inventory's slot 13 to 4358 with lore "&6Koszt:&4 40 MS"
+			set player's current inventory's slot 14 to 4359 with lore "&6Koszt:&4 40 MS"
+			
+			set player's current inventory's slot 18 to 4360 with lore "&6Koszt:&4 80 MS"
+			set player's current inventory's slot 19 to 4361 with lore "&6Koszt:&4 80 MS"
+			set player's current inventory's slot 20 to 4362 with lore "&6Koszt:&4 80 MS"
+			set player's current inventory's slot 21 to 4363 with lore "&6Koszt:&4 80 MS"
+			set player's current inventory's slot 22 to 4364 with lore "&6Koszt:&4 80 MS"
+			set player's current inventory's slot 23 to 4365 with lore "&6Koszt:&4 80 MS"
+			
+			set player's current inventory's slot 6 to 4100 with lore "&6Koszt:&4 20 MS"
+			set player's current inventory's slot 7 to 4119 with lore "&6Koszt:&4 50 MS"
+			set player's current inventory's slot 15 to 4737 with lore "&6Koszt:&4 10 MS"
+			set player's current inventory's slot 16 to 4741 with lore "&6Koszt:&4 10 MS"
+		if clicked slot is 23:
+			wait 2 tick
+			open chest with 1 rows named "&5&lSkrzynki" to player
+			wait 2 tick
+			set player's current inventory's slot 0 to 4527:0 named "&6Wróć"
+			set player's current inventory's slot 1 to 160:15 named " "
+			
+			set player's current inventory's slot 2 to 4413 named "Srebrna skrzynka" with lore "&6Koszt:&4 50 MS"
+			set player's current inventory's slot 4 to 4413 named "Złota skrzynka" with lore "&6Koszt:&4 100 MS"
+			
+			set player's current inventory's slot 3 to 160:15 named " "
+			set player's current inventory's slot 5 to 160:15 named " "
+			set player's current inventory's slot 6 to 160:15 named " "
+			set player's current inventory's slot 7 to 160:15 named " "
+			set player's current inventory's slot 8 to 160:15 named " "
+			set player's current inventory's slot 9 to 160:15 named " "
+	if clicked slot is 44:
+		close player's inventory
+		send "&6Strona: {@strona}"
+	if inventory name of player's current inventory is "&5&lSkrzynki":
+		cancel event
+		wait 2 tick
+		if clicked slot is 0:
+			close player's inventory
+			wait 2 tick
+			execute player command "/sklep"
+			stop
+		if clicked slot is 2:
+			set {_coins} to 50
+			set {_s} to "srebrna"
+		if clicked slot is 4:
+			set {_coins} to 100
+			set {_s} to "zlota"
+		if {_coins} is not set:
+			stop
+		set {_result::*} to objects in column "money" from result of query "SELECT money FROM users WHERE username = '%player%'" and close
+		set {_money} to "%{_result::*}%" parsed as number
+		"%{_result::*}%" is "<none>":
+			update "INSERT INTO users (`username`, `money`) VALUES ('%player%', '0')"
+			set {_money} to 0
+		set {_name} to "%player%"
+		if {_money} is bigger or equal to {_coins}:
+			set {sklep_%player%.targetmoney} to ({_money} - {_coins})
+			set {sklep_%player%.mess} to "%player% Kupil %{_s}% Skrzynke [%{_coins}% MS] - Skrzynka"
+			set {sklep_%player%.item1} to "%{_s}%"
+			wait 2 tick
+			open chest with 3 rows named "&1&lPotwierdzenie" to player
+			set player's current inventory's slot 0 to 160:15 named " "
+			set player's current inventory's slot 9 to 160:15 named " "
+			set player's current inventory's slot 18 to 160:15 named " "
+			set player's current inventory's slot 4 to 160:15 named " "
+			set player's current inventory's slot 13 to 160:15 named " "
+			set player's current inventory's slot 22 to 160:15 named " "
+			set player's current inventory's slot 1 to 4413 named "Skrzynka" with lore "%{_s}% skrzynka"
+			set player's current inventory's slot 15 to 35:5 named "&1Potwierdz zakup" With lore "&6Po akceptacji otrzymasz przedmioty||&6z ramki po lewej stronie."
+			set player's current inventory's slot 16 to 35:14 named "&4Anulowanie zakupów" with lore "&6Po anulacji wrócisz||&6do głównego panelu sklepu."
+			set player's current inventory's slot 26 to 4570 named "&6Informacje" with lore "&7Twój stan MS: &4%{_money}%||&7Koszt zakupu: &4%{_coins}%"
+		else:
+			close player's inventory
+			send "&4Nie stać cię! Aby doładować MS, odwiedź {@strona}"
+	if inventory name of player's current inventory is "&2&lUbrania":
+		cancel event
+		wait 2 tick
+		if clicked slot is 36:
+			close player's inventory
+			wait 2 tick
+			execute player command "/sklep"
+			stop
+		set {_slot} to slot
+		set {_slot} to {_slot} parsed as integer
+		set {_item} to lore of slot {_slot} of player's current inventory
+		set {_item} to "%uncoloured {_item}%"
+		if {_item} contains "Koszt:":
+			set {_coins} to {_item}
+			replace all "Koszt: " with "" in {_coins}
+			replace all " MS" with "" in {_coins}
+			set {_coins} to {_coins} parsed as integer
+			set {_result::*} to objects in column "money" from result of query "SELECT money FROM users WHERE username = '%player%'" and close
+			set {_money} to "%{_result::*}%" parsed as number
+			"%{_result::*}%" is "<none>":
+				update "INSERT INTO users (`username`, `money`) VALUES ('%player%', '0')"
+				set {_money} to 0
+			if {_money} is bigger or equal to {_coins}:
+				set {sklep_%player%.targetmoney} to ({_money} - {_coins})
+				set {sklep_%player%.mess} to "%player% Kupil przedmiot ze slotu %{_slot}% [%{_coins}% MS] - Ubrania"
+				set {_slotx} to slot
+				if yaml value "%{_slotx}%.przedmiot1" from file "zmienne/sklep/ubrania.yml" is set:
+					set {_przedmiot} to yaml value "%{_slotx}%.przedmiot1" from file "zmienne/sklep/ubrania.yml"
+					set {_item} to "1 %{_przedmiot}%"
+					set {sklep_%player%.item1} to {_item} parsed as material
+					set {_item1} to {_item} parsed as material
+				if yaml value "%{_slotx}%.przedmiot2" from file "zmienne/sklep/ubrania.yml" is set:
+					set {_przedmiot} to yaml value "%{_slotx}%.przedmiot2" from file "zmienne/sklep/ubrania.yml"
+					set {_item} to "1 %{_przedmiot}%"
+					set {sklep_%player%.item2} to {_item} parsed as material
+					set {_item2} to {_item} parsed as material
+				if yaml value "%{_slotx}%.przedmiot3" from file "zmienne/sklep/ubrania.yml" is set:
+					set {_przedmiot} to yaml value "%{_slotx}%.przedmiot3" from file "zmienne/sklep/ubrania.yml"
+					set {_item} to "1 %{_przedmiot}%"
+					set {sklep_%player%.item3} to {_item} parsed as material
+					set {_item3} to {_item} parsed as material
+				wait 2 tick
+				open chest with 3 rows named "&1&lPotwierdzenie" to player
+				set player's current inventory's slot 0 to 160:15 named " "
+				set player's current inventory's slot 9 to 160:15 named " "
+				set player's current inventory's slot 18 to 160:15 named " "
+				set player's current inventory's slot 4 to 160:15 named " "
+				set player's current inventory's slot 13 to 160:15 named " "
+				set player's current inventory's slot 22 to 160:15 named " "
+				
+				set player's current inventory's slot 1 to {_item1}
+				set player's current inventory's slot 10 to {_item2}
+				set player's current inventory's slot 19 to {_item3}
+				
+				set player's current inventory's slot 15 to 35:5 named "&1Potwierdz zakup" With lore "&6Po akceptacji otrzymasz przedmioty||&6z ramki po lewej stronie."
+				set player's current inventory's slot 16 to 35:14 named "&4Anulowanie zakupów" with lore "&6Po anulacji wrócisz||&6do głównego panelu sklepu."
+				set player's current inventory's slot 26 to 4570 named "&6Informacje" with lore "&7Twój stan MS: &4%{_money}%||&7Koszt zakupu: &4%{_coins}%"
+			else:
+				close player's inventory
+				send "&4Nie stać cię! Aby doładować MS, odwiedź {@strona}"
+				
+	if inventory name of player's current inventory is "&3&lVip":
+		cancel event
+		wait 2 tick
+		if clicked slot is 0:
+			close player's inventory
+			wait 2 tick
+			execute player command "/sklep"
+			stop
+		if clicked slot is 2:
+			set {_coins} to 14
+			set {_czas} to 1
+		if clicked slot is 4:
+			set {_coins} to 70
+			set {_czas} to 7
+		if clicked slot is 6:
+			set {_coins} to 225
+			set {_czas} to 30
+		if {_czas} is not set:
+			stop
+		set {_result::*} to objects in column "money" from result of query "SELECT money FROM users WHERE username = '%player%'" and close
+		set {_money} to "%{_result::*}%" parsed as number
+		"%{_result::*}%" is "<none>":
+			update "INSERT INTO users (`username`, `money`) VALUES ('%player%', '0')"
+			set {_money} to 0
+		set {_name} to "%player%"
+		if {_money} is bigger or equal to {_coins}:
+			set {sklep_%player%.targetmoney} to ({_money} - {_coins})
+			set {sklep_%player%.mess} to "%player% Kupil VIP na %{_czas}% dni [%{_coins}% MS] - VIP"
+			set {sklep_%player%.item1} to "vip_%{_czas}%d"
+			wait 2 tick
+			open chest with 3 rows named "&1&lPotwierdzenie" to player
+			set player's current inventory's slot 0 to 160:15 named " "
+			set player's current inventory's slot 9 to 160:15 named " "
+			set player's current inventory's slot 18 to 160:15 named " "
+			set player's current inventory's slot 4 to 160:15 named " "
+			set player's current inventory's slot 13 to 160:15 named " "
+			set player's current inventory's slot 22 to 160:15 named " "
+			if {_czas} is not 1:
+				set player's current inventory's slot 1 to 41 named "Funkcja VIP" with lore "Funkcja vip na %{_czas}% dni"
+			else:
+				set player's current inventory's slot 1 to 41 named "Funkcja VIP" with lore "Funkcja vip na %{_czas}% dzień"
+			set player's current inventory's slot 15 to 35:5 named "&1Potwierdz zakup" With lore "&6Po akceptacji otrzymasz przedmioty||&6z ramki po lewej stronie."
+			set player's current inventory's slot 16 to 35:14 named "&4Anulowanie zakupów" with lore "&6Po anulacji wrócisz||&6do głównego panelu sklepu."
+			set player's current inventory's slot 26 to 4570 named "&6Informacje" with lore "&7Twój stan MS: &4%{_money}%||&7Koszt zakupu: &4%{_coins}%"
+		else:
+			close player's inventory
+			send "&4Nie stać cię! Aby doładować MS, odwiedź {@strona}"
+	if inventory name of player's current inventory is "&5&lCapsule corp":
+		cancel event
+		wait 2 tick
+		if clicked slot is 26:
+			close player's inventory
+			wait 2 tick
+			execute player command "/sklep"
+			stop
+		set {_slot} to slot
+		set {_slot} to {_slot} parsed as integer
+		set {_item} to lore of slot {_slot} of player's current inventory
+		set {_item} to "%uncoloured {_item}%"
+		if {_item} contains "Koszt:":
+			set {_coins} to {_item}
+			replace all "Koszt: " with "" in {_coins}
+			replace all " MS" with "" in {_coins}
+			set {_coins} to {_coins} parsed as integer
+			set {_result::*} to objects in column "money" from result of query "SELECT money FROM users WHERE username = '%player%'" and close
+			set {_money} to "%{_result::*}%" parsed as number
+			"%{_result::*}%" is "<none>":
+				update "INSERT INTO users (`username`, `money`) VALUES ('%player%', '0')"
+				set {_money} to 0
+			if {_money} is bigger or equal to {_coins}:
+				set {sklep_%player%.targetmoney} to ({_money} - {_coins})
+				set {sklep_%player%.mess} to "%player% Kupil przedmiot ze slotu %{_slot}% [%{_coins}% MS] - CC"
+				set {_slotx} to slot
+				if yaml value "%{_slotx}%.przedmiot" from file "zmienne/sklep/cc.yml" is set:
+					set {_przedmiot} to yaml value "%{_slotx}%.przedmiot" from file "zmienne/sklep/cc.yml"
+					set {_item} to "1 %{_przedmiot}%"
+					set {sklep_%player%.item1} to {_item} parsed as material
+					set {_item1} to {_item} parsed as material
+				wait 2 tick
+				open chest with 3 rows named "&1&lPotwierdzenie" to player
+				wait 2 tick
+				set player's current inventory's slot 0 to 160:15 named " "
+				set player's current inventory's slot 9 to 160:15 named " "
+				set player's current inventory's slot 18 to 160:15 named " "
+				set player's current inventory's slot 4 to 160:15 named " "
+				set player's current inventory's slot 13 to 160:15 named " "
+				set player's current inventory's slot 22 to 160:15 named " "
+				
+				set player's current inventory's slot 1 to {_item1}
+				
+				set player's current inventory's slot 15 to 35:5 named "&1Potwierdz zakup" With lore "&6Po akceptacji otrzymasz przedmioty||&6z ramki po lewej stronie."
+				set player's current inventory's slot 16 to 35:14 named "&4Anulowanie zakupów" with lore "&6Po anulacji wrócisz||&6do głównego panelu sklepu."
+				set player's current inventory's slot 26 to 4570 named "&6Informacje" with lore "&7Twój stan MS: &4%{_money}%||&7Koszt zakupu: &4%{_coins}%"
+			else:
+				close player's inventory
+				send "&4Nie stać cię! Aby doładować MS, odwiedź {@strona}"		
+	if inventory name of player's current inventory is "&1&lPotwierdzenie":
+		cancel event
+		if clicked slot is 16:
+			close player's inventory
+			wait 2 tick
+			execute player command "/sklep"
+			delete {sklep_%player%.item1}
+			delete {sklep_%player%.item2}
+			delete {sklep_%player%.item3}
+			delete {sklep_%player%.mess}
+			delete {sklep_%player%.targetmoney}
+			stop
+		if clicked slot is 15:
+			close player's inventory
+			set {_targetmoney} to {sklep_%player%.targetmoney}
+			update "UPDATE users SET `money` = '%{_targetmoney}%' WHERE username = '%player%'"
+			log "%{sklep_%player%.mess}%" to "skleplog.log"
+			if {sklep_%player%.item1} is set:
+				if {sklep_%player%.item1} contains "vip_":
+					if {sklep_%player%.item1} contains "1d":
+						execute console command "pex user %player% group add vip """" 86400"
+						send "&6Dziekujemy za dolaczenie do grona VIPow!"
+					if {sklep_%player%.item1} contains "7d":
+						execute console command "pex user %player% group add vip """" 604800"
+						send "&6Dziekujemy za dolaczenie do grona VIPow!"
+					if {sklep_%player%.item1} contains "30d":
+						execute console command "pex user %player% group add vip """" 2628000"
+						send "&6Dziekujemy za dolaczenie do grona VIPow!"
+				else:
+					if {sklep_%player%.item1} contains "srebrna" or "zlota":
+						set {_give} to "1 4413" parsed as material
+						give {_give} named "Skrzynka" with lore "%{sklep_%player%.item1}% skrzynka||&4Uwaga wyjscie podczas losowania||&4skutkuje brakiem zdobyczy!" to player
+						
+					else:
+						give {sklep_%player%.item1} to player
+			if {sklep_%player%.item2} is set:
+				give {sklep_%player%.item2} to player
+			if {sklep_%player%.item3} is set:
+				give {sklep_%player%.item3} to player
+			delete {sklep_%player%.item1}
+			delete {sklep_%player%.item2}
+			delete {sklep_%player%.item3}
+			delete {sklep_%player%.mess}
+			delete {sklep_%player%.targetmoney}
+command /sklepadd [<integer>] [<text>] [<text>] [<text>]:
+	permission: *
+	trigger:
+		if arg-2 is set:
+			set yaml value "%arg-1%.przedmiot1" from file "zmienne/sklep/ubrania.yml" to "%arg-2%"
+		if arg-3 is set:
+			set yaml value "%arg-1%.przedmiot2" from file "zmienne/sklep/ubrania.yml" to "%arg-3%"
+		if arg-4 is set:
+			set yaml value "%arg-1%.przedmiot3" from file "zmienne/sklep/ubrania.yml" to "%arg-4%"
+command /ccadd [<integer>] [<text>]:
+	permission: *
+	trigger:
+		if arg-2 is set:
+			set yaml value "%arg-1%.przedmiot" from file "zmienne/sklep/cc.yml" to "%arg-2%"
